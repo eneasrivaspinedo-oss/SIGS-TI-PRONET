@@ -68,16 +68,11 @@ const navItems: { href: string; label: string; icon: typeof LayoutDashboard; pag
 function Mark({ compact = false }: { compact?: boolean }) {
   return (
     <div className="flex items-center gap-3" data-testid="brand-pronet">
-      <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg bg-[hsl(var(--accent))] text-[hsl(var(--sidebar))]">
-        <span className="absolute -right-2 -top-2 h-6 w-6 rounded-full border-2 border-[hsl(var(--sidebar))]/25" />
-        <span className="font-display text-lg font-semibold leading-none">P</span>
-      </div>
-      {!compact && (
-        <div className="leading-none">
-          <div className="font-display text-xl text-[hsl(var(--sidebar-foreground))]">Pronet</div>
-          <div className="mt-1 font-mono-app text-[9px] uppercase tracking-[0.22em] text-[hsl(var(--accent))]">SIGS-TI</div>
-        </div>
-      )}
+      <img
+        src="/pronet-logo.png"
+        alt="Pronet system"
+        className={`${compact ? 'h-8' : 'h-11'} w-auto object-contain`}
+      />
     </div>
   );
 }
@@ -85,11 +80,7 @@ function Mark({ compact = false }: { compact?: boolean }) {
 function LogoWordmark() {
   return (
     <div className="flex items-center gap-3" data-testid="brand-login">
-      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[hsl(var(--accent))] font-display text-2xl font-semibold text-[hsl(var(--sidebar))]">P</div>
-      <div>
-        <div className="font-display text-2xl font-semibold tracking-tight text-[hsl(var(--foreground))]">Pronet</div>
-        <div className="font-mono-app text-[10px] uppercase tracking-[0.24em] text-[hsl(var(--primary))]">System S.A.S.</div>
-      </div>
+      <img src="/pronet-logo.png" alt="Pronet system" className="h-16 w-auto object-contain" />
     </div>
   );
 }
@@ -210,8 +201,7 @@ function Login() {
       <section className="relative flex min-h-[290px] flex-1 overflow-hidden bg-[hsl(var(--sidebar))] p-7 text-[hsl(var(--sidebar-foreground))] sm:p-10 lg:min-h-[100dvh] lg:max-w-[51%] lg:p-14">
         <div className="relative z-10 flex w-full flex-col justify-between">
           <div className="animate-in-fade"><Mark /></div>
-          <div className="max-w-xl animate-in-up">
-            <div className="mb-4 font-mono-app text-[10px] uppercase tracking-[0.22em] text-[hsl(var(--accent))]">Pronet System S.A.S.</div>
+           <div className="max-w-xl animate-in-up">
             <h1 className="max-w-lg font-display text-5xl leading-[.98] tracking-[-0.04em] sm:text-6xl lg:text-[5.5rem]">El servicio,<br /><span className="text-[hsl(var(--accent))]">bajo control.</span></h1>
             <p className="mt-6 max-w-md text-sm leading-6 text-[hsl(var(--sidebar-foreground))]/60 sm:text-base">Una vista compartida para que cada incidencia avance con contexto, evidencia y responsabilidad.</p>
           </div>
