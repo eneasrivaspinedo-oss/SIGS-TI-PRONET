@@ -1,0 +1,1 @@
+- [Render single-service build](render-single-service.md) — one Render web service needs API static serving plus Vite build-time defaults.

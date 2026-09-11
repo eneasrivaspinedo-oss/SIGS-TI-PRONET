@@ -1,0 +1,47 @@
+Por favor, crea el sistema SIGS-TI PRONET de gestión de infraestructura de TI y mesa de ayuda bajo una arquitectura de monorepositorio con Node.js (API Server) y Vite (Frontend). Que sea como se ve la imagen y usar el logo de Pronet 
+
+Prepara el proyecto de forma estricta para que tenga un LINK PERMANENTE en producción usando GitHub para el código, Neon para la base de datos PostgreSQL y Render para el despliegue web.
+
+Aplica estrictamente las siguientes reglas de desarrollo para que funcione a la primera:
+
+1. CONFIGURACIÓN PARA DESPLIEGUE Y LINK PERMANENTE (Render + GitHub + Neon):
+   - Estructura los archivos package.json de la raíz y de los subproyectos de forma limpia.
+   - Agrega un "Build Command" unificado que instale las dependencias y compile tanto el frontend como el backend (ej. pnpm install && pnpm build).
+   - Agrega un "Start Command" nativo que use las variables de entorno de producción para levantar el servidor en el puerto 10000.
+   - El código debe leer la variable DATABASE_URL de forma externa y soportar SSL obligatorio (sslmode=require) para conectar con Neon de forma segura.
+
+2. BASE DE DATOS (Drizzle ORM / PostgreSQL): 
+   - Define las tablas "sigs_users", "sigs_sessions", "sigs_clients", "sigs_projects" e "sigs_incidents".
+   - En la tabla de usuarios ("sigs_users"), la columna de la contraseña DEBE llamarse textualmente "password_hash" (en minúsculas con guion bajo).
+   - El estado del usuario en la columna "status" debe guardarse y validarse siempre como 'active' en minúsculas.
+
+3. SISTEMA DE AUTENTICACIÓN (LOGIN) - REGLA CRÍTICA:
+   - Para la encriptación de contraseñas, utiliza estrictamente BCRYPT estándar (paquete 'bcrypt' o 'bcryptjs') con un factor de 10 rounds. NO uses algoritmos de crypto nativo personalizados ni firmas dinámicas complejas.
+   - Crea una función limpia verifyPassword(plainPassword, hashedPassword) usando bcrypt.compareSync.
+
+4. SCRIPT DE INICIALIZACIÓN DE DATOS (SEED CON USUARIOS REALES):
+   - Crea un archivo de inicialización automática de datos (seed) que inyecte obligatoriamente los siguientes 4 usuarios reales si la tabla está vacía.
+   - La contraseña de acceso para TODOS los usuarios debe ser en texto plano 'Pronet2026' (procesada obligatoriamente por el hash de Bcrypt):
+
+     * ADMINISTRADOR:
+       - Nombre: Jhon Abanto
+       - Correo: admin@sigs-ti.test
+       - Rol: 'ADMINISTRADOR'
+       - Status: 'active'
+
+     * SUPERVISOR:
+       - Nombre: Eneas Rivas
+       - Correo: supervisor@sigs-ti.test
+       - Rol: 'SUPERVISOR'
+       - Status: 'active'
+
+     * TÉCNICO:
+       - Nombre: Carlos Usca
+       - Correo: tecnico@sigs-ti.test
+       - Rol: 'TECNICO'
+       - Status: 'active'
+
+     * CLIENTE:
+       - Nombre: Cristiano Ronaldo Dosantos
+       - Correo: cliente@sigs-ti.test
+       - Rol: 'CLIENTE'

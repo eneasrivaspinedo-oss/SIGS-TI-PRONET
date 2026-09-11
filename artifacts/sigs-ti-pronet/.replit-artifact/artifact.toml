@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "SIGS-TI PRONET"
+description = "Sistema de gestión de infraestructura de TI y mesa de ayuda para controlar clientes, proyectos e incidencias con trazabilidad operativa."
+version = "1.0.0"
+id = "artifacts/sigs-ti-pronet"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25864
+
+[services.development]
+run = "pnpm --filter @workspace/sigs-ti-pronet run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/sigs-ti-pronet", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/sigs-ti-pronet/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25864"
+BASE_PATH = "/"

@@ -1,15 +1,19 @@
-# [Project name]
+# SIGS-TI PRONET
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Sistema de gestión de infraestructura de TI y mesa de ayuda para controlar clientes, proyectos e incidencias con trazabilidad operativa.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/api-server run dev` — run the API server
+- `pnpm --filter @workspace/sigs-ti-pronet run dev` — run the web app
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
+- `pnpm run build:render` — Render build command
+- `pnpm run start:render` — production server on port 10000
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- Required env: `DATABASE_URL` — PostgreSQL connection string (Neon-compatible, SSL required)
+- Required env: `SESSION_SECRET` — secret used to sign session digests
 
 ## Stack
 
@@ -19,26 +23,36 @@ _Replace the heading above with the project's name, and this line with one sente
 - Validation: Zod (`zod/v4`), `drizzle-zod`
 - API codegen: Orval (from OpenAPI spec)
 - Build: esbuild (CJS bundle)
+- Frontend: React + Vite + Tailwind CSS
+- Authentication: database-backed HTTP-only sessions with bcryptjs (10 rounds)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/sigs-ti-pronet/` — web app and interface
+- `artifacts/api-server/` — Express API, authentication, seed, and production static serving
+- `lib/api-spec/openapi.yaml` — source of truth for API contracts
+- `lib/db/src/schema/` — Drizzle schema for SIGS-TI tables
+- `render.yaml` / `DEPLOYMENT.md` — Render + Neon deployment preparation
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The frontend uses generated API hooks from the OpenAPI contract instead of hand-written request types.
+- Sessions use opaque HTTP-only cookies backed by `sigs_sessions`; passwords use standard bcryptjs with 10 rounds.
+- `DATABASE_URL` is read externally and normalized to require SSL for Neon-compatible connections.
+- The API serves the built frontend in production so Render can run one web service and expose one permanent URL.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
-
-## User preferences
-
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Secure role-based entry for administrator, supervisor, technician, and client users.
+- Dashboard with operational counts, incident distribution, and recent activity.
+- CRUD flows for clients, projects, and incidents, plus a user directory.
+- Seeded initial users and operational sample records for a useful first login.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Run API codegen after every OpenAPI change.
+- Run `pnpm --filter @workspace/db run push` after changing Drizzle schema.
+- Render requires `DATABASE_URL` and `SESSION_SECRET` to be configured in the service environment.
 
 ## Pointers
 
