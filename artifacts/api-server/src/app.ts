@@ -1,5 +1,5 @@
 import express, { type Express } from "express";
-import cors from "cors";
+import cors, { type CorsOptions } from "cors";
 import cookieParser from "cookie-parser";
 import pinoHttp from "pino-http";
 import path from "node:path";
@@ -8,6 +8,22 @@ import router from "./routes";
 import { logger } from "./lib/logger";
 
 const app: Express = express();
+const renderFrontendOrigin = "https://onrender.com";
+const configuredFrontendOrigin = process.env.FRONTEND_ORIGIN;
+const isProduction = process.env.NODE_ENV === "production";
+const corsOptions: CorsOptions = {
+  credentials: true,
+  origin(origin, callback) {
+    const isAllowedRenderOrigin = origin?.endsWith(".onrender.com") ?? false;
+    const isAllowed =
+      !origin ||
+      origin === renderFrontendOrigin ||
+      origin === configuredFrontendOrigin ||
+      (isProduction && isAllowedRenderOrigin);
+
+    callback(isAllowed ? null : new Error("Origin is not allowed by CORS"), isAllowed);
+  },
+};
 
 app.use(
   pinoHttp({
@@ -28,7 +44,7 @@ app.use(
     },
   }),
 );
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
