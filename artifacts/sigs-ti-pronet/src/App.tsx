@@ -71,7 +71,7 @@ function Mark({ compact = false }: { compact?: boolean }) {
       <img
         src="/pronet-logo.png"
         alt="Pronet system"
-        className={`${compact ? 'h-8' : 'h-11'} w-auto object-contain`}
+        className={`${compact ? 'h-9' : 'h-16'} w-auto object-contain`}
       />
     </div>
   );
@@ -80,7 +80,7 @@ function Mark({ compact = false }: { compact?: boolean }) {
 function LogoWordmark() {
   return (
     <div className="flex items-center gap-3" data-testid="brand-login">
-      <img src="/pronet-logo.png" alt="Pronet system" className="h-16 w-auto object-contain" />
+      <img src="/pronet-logo.png" alt="Pronet system" className="h-20 w-auto object-contain" />
     </div>
   );
 }
@@ -202,7 +202,7 @@ function Login() {
         <div className="relative z-10 flex w-full flex-col justify-between">
           <div className="animate-in-fade"><Mark /></div>
            <div className="max-w-xl animate-in-up">
-            <h1 className="max-w-lg font-display text-5xl leading-[.98] tracking-[-0.04em] sm:text-6xl lg:text-[5.5rem]">El servicio,<br /><span className="text-[hsl(var(--accent))]">bajo control.</span></h1>
+             <h1 className="max-w-md font-display text-4xl leading-[1.02] tracking-[-0.03em] sm:text-5xl lg:text-[4.5rem]">El servicio,<br /><span className="text-[hsl(var(--accent))]">bajo control.</span></h1>
             <p className="mt-6 max-w-md text-sm leading-6 text-[hsl(var(--sidebar-foreground))]/60 sm:text-base">Una vista compartida para que cada incidencia avance con contexto, evidencia y responsabilidad.</p>
           </div>
           <div className="flex items-center justify-between pt-10 font-mono-app text-[9px] uppercase tracking-[0.18em] text-[hsl(var(--sidebar-foreground))]/40"><span>Control operativo</span><span>v2.4 / LTMA</span></div>
