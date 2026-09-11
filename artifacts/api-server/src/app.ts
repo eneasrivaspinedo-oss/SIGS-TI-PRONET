@@ -8,20 +8,14 @@ import router from "./routes";
 import { logger } from "./lib/logger";
 
 const app: Express = express();
-const renderFrontendOrigin = "https://onrender.com";
-const configuredFrontendOrigin = process.env.FRONTEND_ORIGIN;
-const isProduction = process.env.NODE_ENV === "production";
 const corsOptions: CorsOptions = {
   credentials: true,
   origin(origin, callback) {
-    const isAllowedRenderOrigin = origin?.endsWith(".onrender.com") ?? false;
-    const isAllowed =
-      !origin ||
-      origin === renderFrontendOrigin ||
-      origin === configuredFrontendOrigin ||
-      (isProduction && isAllowedRenderOrigin);
-
-    callback(isAllowed ? null : new Error("Origin is not allowed by CORS"), isAllowed);
+    if (!origin || origin === "https://onrender.com") {
+      callback(null, true);
+      return;
+    }
+    callback(null, false);
   },
 };
 

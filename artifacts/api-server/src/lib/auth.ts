@@ -6,8 +6,6 @@ import type { PublicUser } from "@workspace/db";
 
 export const SESSION_COOKIE = "sigs_session";
 const SESSION_DAYS = 7;
-const isProduction = process.env.NODE_ENV === "production";
-const sessionSameSite: "lax" | "none" = isProduction ? "none" : "lax";
 
 function sessionDigest(token: string): string {
   const secret = process.env.SESSION_SECRET ?? "sigs-ti-development-session";
@@ -35,8 +33,8 @@ export async function createSession(userId: number, res: Response): Promise<void
   });
   res.cookie(SESSION_COOKIE, token, {
     httpOnly: true,
-    sameSite: sessionSameSite,
-    secure: isProduction,
+    sameSite: "none",
+    secure: true,
     maxAge: SESSION_DAYS * 24 * 60 * 60 * 1000,
   });
 }
@@ -48,8 +46,8 @@ export async function clearSession(req: Request, res: Response): Promise<void> {
   }
   res.clearCookie(SESSION_COOKIE, {
     httpOnly: true,
-    sameSite: sessionSameSite,
-    secure: isProduction,
+    sameSite: "none",
+    secure: true,
   });
 }
 
