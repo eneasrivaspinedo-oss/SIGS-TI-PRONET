@@ -200,7 +200,7 @@ function Login() {
     <main className="app-noise flex min-h-[100dvh] flex-col bg-[hsl(var(--background))] lg:flex-row" data-testid="login-screen">
       <section className="relative flex min-h-[290px] flex-1 overflow-hidden bg-[hsl(var(--sidebar))] p-7 text-[hsl(var(--sidebar-foreground))] sm:p-10 lg:min-h-[100dvh] lg:max-w-[51%] lg:p-14">
         <div className="relative z-10 flex w-full flex-col justify-between">
-           <div className="flex max-w-2xl items-center gap-4 animate-in-up sm:gap-6 lg:gap-7">
+           <div className="flex max-w-2xl items-start gap-4 animate-in-up sm:gap-6 lg:gap-7">
              <div className="min-w-0">
                <h1 className="max-w-md font-display text-4xl leading-[1.02] tracking-[-0.03em] sm:text-5xl lg:text-[4.1rem]">El servicio,<br /><span className="text-[hsl(var(--accent))]">bajo control.</span></h1>
                <p className="mt-6 max-w-md text-sm leading-6 text-[hsl(var(--sidebar-foreground))]/60 sm:text-base">Una vista compartida para que cada incidencia avance con contexto, evidencia y responsabilidad.</p>
@@ -208,7 +208,7 @@ function Login() {
              <img
                src="/pronet-logo.png"
                alt="Pronet system"
-               className="hidden h-auto w-32 shrink-0 rounded-sm object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.22)] sm:block lg:w-40"
+               className="mt-2 hidden h-auto w-32 shrink-0 rounded-sm object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.22)] sm:block lg:w-40"
              />
           </div>
           <div className="flex items-center justify-between pt-10 font-mono-app text-[9px] uppercase tracking-[0.18em] text-[hsl(var(--sidebar-foreground))]/40"><span>Control operativo</span><span>v2.4 / LTMA</span></div>
