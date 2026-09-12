@@ -4,6 +4,7 @@ services:
     runtime: node
     buildCommand: pnpm run build:render
     startCommand: pnpm run start:render
+    preDeployCommand: pnpm run seed:render
     envVars:
       - key: DATABASE_URL
         sync: false
