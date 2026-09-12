@@ -2,8 +2,8 @@ services:
   - type: web
     name: sigs-ti-pronet
     runtime: node
-    buildCommand: pnpm install --frozen-lockfile && pnpm build
-    startCommand: pnpm start:render
+    buildCommand: pnpm run build:render
+    startCommand: pnpm run start:render
     envVars:
       - key: DATABASE_URL
         sync: false
