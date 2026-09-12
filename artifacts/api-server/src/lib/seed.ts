@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
 import { db } from "@workspace/db";
 import { clientsTable, incidentsTable, projectsTable, usersTable } from "@workspace/db";
 import { logger } from "./logger";
@@ -27,6 +28,8 @@ export async function seedDatabase(): Promise<void> {
   const passwordHash = bcrypt.hashSync("Pronet2026", 10);
   await db.transaction(async (tx) => {
     await tx.insert(usersTable).values(defaultUsers.map((user) => ({ ...user, passwordHash }))).onConflictDoNothing({ target: usersTable.email });
+    const admin = defaultUsers[0];
+    await tx.update(usersTable).set({ name: admin.name, passwordHash, role: admin.role, status: admin.status, avatar: admin.avatar }).where(eq(usersTable.email, admin.email));
     const users = await tx.select({ id: usersTable.id, email: usersTable.email }).from(usersTable);
     const userIds = new Map(users.map((user) => [user.email, user.id]));
     const clientRows = await tx.select({ id: clientsTable.id, name: clientsTable.name }).from(clientsTable);
