@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import pinoHttp from "pino-http";
 import path from "node:path";
 import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
@@ -45,12 +46,25 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 
-const frontendDist = path.resolve(process.cwd(), "artifacts/sigs-ti-pronet/dist/public");
-if (existsSync(frontendDist)) {
+const serverDir = path.dirname(fileURLToPath(import.meta.url));
+const frontendDistCandidates = [
+  path.resolve(process.cwd(), "artifacts/sigs-ti-pronet/dist/public"),
+  path.resolve(serverDir, "../../sigs-ti-pronet/dist/public"),
+];
+const frontendDist = frontendDistCandidates.find((candidate) =>
+  existsSync(candidate),
+);
+
+if (frontendDist) {
   app.use(express.static(frontendDist));
   app.get("/{*splat}", (_req, res) => {
     res.sendFile(path.join(frontendDist, "index.html"));
   });
+} else {
+  logger.warn(
+    { frontendDistCandidates },
+    "Frontend build directory not found; serving API only",
+  );
 }
 
 export default app;
