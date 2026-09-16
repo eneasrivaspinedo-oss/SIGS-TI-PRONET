@@ -27,10 +27,11 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     return;
   }
 
+  const email = parsed.data.email.trim().toLowerCase();
   const [user] = await db
     .select()
     .from(usersTable)
-    .where(and(eq(usersTable.email, parsed.data.email.toLowerCase()), eq(usersTable.status, "active")))
+    .where(and(eq(usersTable.email, email), eq(usersTable.status, "active")))
     .limit(1);
 
   if (!user || !verifyPassword(parsed.data.password, user.passwordHash)) {
