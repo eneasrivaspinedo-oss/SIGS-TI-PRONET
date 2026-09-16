@@ -15,6 +15,9 @@ const DEFAULT_JSON_ACCEPT = "application/json, application/problem+json";
 // Module-level configuration
 // ---------------------------------------------------------------------------
 
+// Keep browser requests same-origin by default. The production API serves the
+// frontend from the same host, and Replit's preview router forwards `/api`
+// requests to the API artifact.
 let _baseUrl: string | null = null;
 let _authTokenGetter: AuthTokenGetter | null = null;
 
